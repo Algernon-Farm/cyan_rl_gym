@@ -1,0 +1,43 @@
+<launch>
+
+    <rosparam file="$(find hm_gazebo)/config/default.yaml" command="load"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(find orca_ydescription_3cm)/urdf/orca_ydescription.urdf
+    "/>
+    <param name="hm_description" command="$(find xacro)/xacro $(find orca_ydescription_3cm)/urdf/orca_ydescription.urdf
+    "/>
+    <arg name="wn" default="empty_world"/>
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="true"/>
+        <arg name="world_name" value="$(find orca_ydescription_3cm)/worlds/$(arg wn).world"/>
+    </include>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true"
+        output="screen"
+        args="-param robot_description -urdf -model hm
+        -x 0.0
+        -y 0.00
+        -z 0.74
+        -Y 0.06
+        -J larm_joint1 0.51
+        -J larm_joint2 0.00
+        -J larm_joint3 0.00
+        -J larm_joint4 -1.30
+        -J rarm_joint1 0.51
+        -J rarm_joint2 0.00
+        -J rarm_joint3 0.00
+        -J rarm_joint4 -1.30
+        -J lleg_joint1 0.27
+        -J lleg_joint2 0.00
+        -J lleg_joint3 0.00
+        -J lleg_joint4 -0.65
+        -J lleg_joint5 0.45
+        -J rleg_joint1 0.27
+        -J rleg_joint2 0.00
+        -J rleg_joint3 0.00
+        -J rleg_joint4 -0.65
+        -J rleg_joint5 0.45"
+      />
+</launch>

@@ -1,0 +1,1 @@
+python sim2sim_mujoco.py  orca.yaml

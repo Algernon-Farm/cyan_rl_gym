@@ -1,0 +1,26 @@
+<launch>
+    <arg name="robot_type" default="sirius_mid_v3" doc="Robot type: [a1, aliengo, go1, laikago]"/>
+    <arg name="z_pos" default="0.6" doc="initial position in gazebo"/>
+    <arg name="wn" default="empty_world_stair"/>
+    <param name="legged_robot_description" command="cat $(find sirius_mid_v3)/urdf/sirius_mid_v3.urdf"/>        
+    <rosparam file="$(find legged_gazebo)/config/default.yaml" command="load"/>
+        
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find legged_gazebo)/worlds/$(arg wn).world"/>
+        <arg name="paused" value="true"/>
+    </include>        <!-- push robot_description to factory and spawn robot in gazebo -->
+        
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true"
+        args="-z $(arg z_pos) -param legged_robot_description -urdf -model sirius_plus
+        -J LF_HFE 0.8
+        -J LF_KFE -1.6
+        -J LH_HFE -0.8
+        -J LH_KFE 1.6
+        -J RF_HFE 0.8
+        -J RF_KFE -1.6
+        -J RH_HFE -0.8
+        -J RH_KFE 1.6"
+        output="screen" 
+        />
+
+</launch>
